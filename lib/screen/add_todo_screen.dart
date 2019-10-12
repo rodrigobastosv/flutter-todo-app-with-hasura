@@ -22,9 +22,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   var _todoData = {};
   Future<List<TodoType>> _todoTypeFuture;
   int _pickedType;
+  DateTime _initialDate;
 
   final descriptionController = TextEditingController();
-  final dueDateController = TextEditingController();
 
   @override
   void initState() {
@@ -32,8 +32,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     if (widget.todo != null) {
       final todo = widget.todo;
       descriptionController.text = todo.description;
-      dueDateController.text = todo.dueDate;
       _pickedType = todo.todoType.id;
+      _initialDate = _format.parse(todo.dueDate);
     }
     _todoTypeFuture = _todoService.getAllTodoTypes();
   }
@@ -59,7 +59,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               SizedBox(height: 24),
 
               DateTimeField(
-                controller: dueDateController,
+                initialValue: _initialDate,
                 format: _format,
                 decoration: InputDecoration(
                   labelText: 'Due Date', border: OutlineInputBorder(),),
